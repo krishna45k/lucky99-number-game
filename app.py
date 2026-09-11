@@ -174,7 +174,11 @@ def reset_inputs():
     c.commit(); c.close()
     return redirect(url_for("admin"))
 
+# Initialize database when the application starts
+init_db()
+
+# Start automatic cleanup thread
+threading.Thread(target=cleanup_loop, daemon=True).start()
+
 if __name__ == "__main__":
-    init_db()
-    threading.Thread(target=cleanup_loop, daemon=True).start()
-    app.run(host="127.0.0.1", port=5000, debug=True)
+    app.run(host="127.0.0.1", port=5000, debug=False)
